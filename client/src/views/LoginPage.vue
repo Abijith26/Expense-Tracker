@@ -57,7 +57,7 @@ function validate() {
       <!-- Password Field -->
       <div class="field-container">
         <label for="super-user-name-password">Password</label>
-        <input type="password" id="super-user-name-password" required v-model="password" />
+        <input type="password" id="super-user-name-password" v-model="password" required />
       </div>
       <button class="button-style">Submit</button>
     </form>

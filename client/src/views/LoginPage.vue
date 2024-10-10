@@ -7,6 +7,7 @@ const password = ref('')
 <template>
   <div class="container">
     <form class="form-container" @submit.prevent="">
+      <p class="title">Login</p>
       <!-- Username Field -->
       <div class="field-container">
         <label for="super-user-name">Name</label>
@@ -40,8 +41,34 @@ const password = ref('')
   align-items: center;
   width: 100vw;
   height: 100vh;
-  background: lightgrey;
+
+  background: #121212;
+  background: linear-gradient(
+    135deg,
+    #121212 25%,
+    #1a1a1a 25%,
+    #1a1a1a 50%,
+    #121212 50%,
+    #121212 75%,
+    #1a1a1a 75%,
+    #1a1a1a
+  );
+  background-size: 40px 40px;
+
+  /* Using Animation */
+  animation: move 4s linear infinite;
 }
+
+/* Animation */
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -51,6 +78,12 @@ const password = ref('')
   background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #ff53d4 60%, #62c2fe 90%);
   padding: 70px;
   border-radius: 5%;
+}
+
+.title {
+  text-align: center;
+  font-weight: 900;
+  font-size: 30px;
 }
 
 .field-container {

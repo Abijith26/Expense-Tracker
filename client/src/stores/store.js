@@ -1,8 +1,8 @@
-import { ref, computed } from 'vue'
+// import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', () => {
-  const superUser = { name: 'Christof', password: 'Munich' }
+export const Store = defineStore('counter', () => {
+  const superUser = { name: 'Christof', secret: 'Munich' }
 
   return { superUser }
 })

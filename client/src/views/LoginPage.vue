@@ -8,7 +8,7 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
 // State variables to store the credentials from the super-user
-const username = ref('')
+const superUserEmailID = ref('')
 const password = ref('')
 
 function validate() {
@@ -18,13 +18,13 @@ function validate() {
   const storeData = Store()
 
   // Destructuring to get the necessary data as it is of non-reactive type
-  const { name, secret } = storeData.superUser
-  console.log(`Extraction done - Name:${name}, Secret:${secret}`)
+  const { email, secret } = storeData.superUser
+  console.log(`Extraction done - Name:${email}, Secret:${secret}`)
 
   // Validating the creds with the stored cred
   console.log('Validation Starts..')
 
-  if (username.value === name && password.value === secret) {
+  if (superUserEmailID.value === email && password.value === secret) {
     console.log('Validation Ends...')
 
     router.push('/dashboard')
@@ -34,7 +34,7 @@ function validate() {
       position: toast.POSITION.TOP_CENTER
     })
     // Clearing the fields after the validation
-    username.value = ''
+    superUserEmailID.value = ''
     password.value = ''
   }
 }
@@ -45,13 +45,13 @@ function validate() {
       <p class="title">Login</p>
       <!-- Username Field -->
       <div class="field-container">
-        <label for="super-user-name">Name</label>
+        <label for="super-user-name">Email-ID</label>
         <input
-          type="text"
+          type="email"
           id="super-user-name"
           required
-          placeholder="Eg. Steve"
-          v-model="username"
+          placeholder="Eg. Steve@xyz.com"
+          v-model="superUserEmailID"
         />
       </div>
       <!-- Password Field -->

@@ -14,7 +14,8 @@ const storeData = Store()
 <style scoped>
 .heading {
   font-family: sans-serif;
-  font-size: 25px;
+  font-size: 16px;
+  font-weight: bolder;
   background-color: grey;
   color: whitesmoke;
   padding: 10px;

@@ -2,6 +2,7 @@
 import { Store } from '@/stores/store'
 import { toRefs, Teleport } from 'vue'
 import AccountsForm from '@/views/accountForm.vue'
+import DashHeading from '@/components/dashHeading.vue'
 
 const storeData = Store()
 
@@ -20,7 +21,7 @@ const closeAccountForm = () => {
 }
 </script>
 <template>
-  <div class="container">
+  <div :class="['container', { 'blur-background': showAccountFormStatus }]">
     <!-- sidebar -->
     <aside>
       <nav class="nav-style">
@@ -32,7 +33,7 @@ const closeAccountForm = () => {
       </nav>
     </aside>
     <!-- Main Content -->
-    <main></main>
+    <main><DashHeading /></main>
   </div>
   <!-- To display as a modal -->
   <Teleport to="body">
@@ -46,16 +47,21 @@ const closeAccountForm = () => {
   box-sizing: border-box;
 }
 
+.blur-background {
+  filter: blur(5px);
+}
+
 .container {
   display: flex;
   flex-direction: row;
   gap: 15px;
+  transition: filter 0.3s ease-in-out;
 }
 
 .nav-style {
-  background-color: #f6d5f7;
+  background-color: #a1c6ea;
   width: max-content;
-  height: 85vh;
+  height: 95vh;
   margin-top: 10px;
   padding: 15px;
   border-radius: 5px;
@@ -64,7 +70,7 @@ const closeAccountForm = () => {
 .nav-style > ul {
   list-style: none;
   font-family: sans-serif;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   display: flex;
   flex-direction: column;
@@ -77,15 +83,15 @@ const closeAccountForm = () => {
 
 .nav-style > ul > li:hover {
   border-radius: 5px;
-  background-color: #f2eddf;
-  color: #8c3e3e;
+  background-color: #fc738c;
+  color: #ffff;
   cursor: pointer;
 }
 
 main {
   margin-top: 10px;
   padding: 15px;
-  background-color: #d8c2b5;
+  background-color: #dae3e5;
   flex-grow: 1;
   border-radius: 5px;
 }

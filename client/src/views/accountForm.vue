@@ -8,14 +8,16 @@ import { ref } from 'vue'
 const accountName = ref('')
 const initialBalance = ref(0)
 
+const emit = defineEmits(['closeForm'])
+
 const createAccount = () => {
   console.log('Account created...')
-  this.emit('closeForm')
+  emit('closeForm')
 }
 </script>
 <template>
   <div class="background">
-    <form class="form-container">
+    <form class="form-container" @submit.prevent="createAccount">
       <!-- Account Name Field -->
       <div class="field-container">
         <label for="account-name">Account Name</label>
@@ -29,10 +31,10 @@ const createAccount = () => {
       </div>
       <!-- Amount Field -->
       <div class="field-container">
-        <label for="initial-amount">Password</label>
+        <label for="initial-amount">Initial Amount</label>
         <input type="number" id="initial-amount" v-model="initialBalance" required />
       </div>
-      <button class="button-style" @submit.prevent="createAccount">Create</button>
+      <button class="button-style">Create</button>
       <button class="cancel-button" @click="$emit('closeForm')">Close</button>
     </form>
   </div>
@@ -44,14 +46,14 @@ const createAccount = () => {
   gap: 15px;
   width: min-content;
   height: min-content;
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #ff53d4 60%, #62c2fe 90%);
-  padding: 70px;
+  background-color: #e5e5e5;
+  padding: 50px;
   border-radius: 5%;
   z-index: 999;
   /* Fixing its position */
   position: fixed;
   top: 15%;
-  left: 35%;
+  left: 40%;
 }
 
 .field-container {
@@ -71,6 +73,10 @@ const createAccount = () => {
   padding: 0 1rem;
   border: 2px solid transparent;
   font-size: 1rem;
+}
+
+.field-container > label {
+  color: #495057;
 }
 
 /* Hide the spin buttons in WebKit browsers */
@@ -99,9 +105,16 @@ input[type='number'] {
   border: none;
   cursor: pointer;
   font-weight: bold;
+  background-color: white;
+  color: black;
+  transition: 0.4s ease-in-out;
+}
+
+.cancel-button:hover {
   background-color: red;
   color: white;
 }
+
 .button-style {
   position: relative;
   transition: all 0.3s ease-in-out;

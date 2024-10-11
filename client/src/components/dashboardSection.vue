@@ -1,21 +1,43 @@
-<script setup></script>
+<script setup>
+import { Store } from '@/stores/store'
+import { toRefs, Teleport } from 'vue'
+import AccountsForm from '@/views/accountForm.vue'
+
+const storeData = Store()
+
+const { toggleAccountForm, state } = storeData
+
+const { showAccountFormStatus } = toRefs(state)
+
+// Opening the form
+const openAccountForm = () => {
+  toggleAccountForm()
+}
+
+// Closing the form
+const closeAccountForm = () => {
+  toggleAccountForm()
+}
+</script>
 <template>
   <div class="container">
     <!-- sidebar -->
     <aside>
       <nav class="nav-style">
         <ul>
-          <li>Create Account</li>
+          <li @click="openAccountForm">Create Account</li>
           <li>Update Salary</li>
           <li>Update Expense</li>
         </ul>
       </nav>
     </aside>
     <!-- Main Content -->
-    <main>
-      <p>Hey All</p>
-    </main>
+    <main></main>
   </div>
+  <!-- To display as a modal -->
+  <Teleport to="body">
+    <AccountsForm v-if="showAccountFormStatus" @closeForm="closeAccountForm" />
+  </Teleport>
 </template>
 <style scoped>
 * {

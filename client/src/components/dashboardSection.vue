@@ -2,14 +2,16 @@
 import { Store } from '@/stores/store'
 import { toRefs, Teleport } from 'vue'
 import AccountsForm from '@/views/accountForm.vue'
+import SavingsForm from '@/views/savingsForm.vue'
 import DashHeading from '@/components/dashHeading.vue'
 
 const storeData = Store()
 
-const { toggleAccountForm, state } = storeData
+const { toggleAccountForm, toggleSavingsForm, state } = storeData
 
-const { showAccountFormStatus } = toRefs(state)
+const { showAccountFormStatus, showSavingsFormStatus } = toRefs(state)
 
+// Create Accounts Form
 // Opening the form
 const openAccountForm = () => {
   toggleAccountForm()
@@ -19,15 +21,28 @@ const openAccountForm = () => {
 const closeAccountForm = () => {
   toggleAccountForm()
 }
+
+// Savings Form
+// Opening the form
+const openSavingsForm = () => {
+  toggleSavingsForm()
+}
+
+// Closing the form
+const closeSavingsForm = () => {
+  toggleSavingsForm()
+}
 </script>
 <template>
-  <div :class="['container', { 'blur-background': showAccountFormStatus }]">
+  <div
+    :class="['container', { 'blur-background': showAccountFormStatus || showSavingsFormStatus }]"
+  >
     <!-- sidebar -->
     <aside>
       <nav class="nav-style">
         <ul>
           <li @click="openAccountForm">Create Account</li>
-          <li>Update Salary</li>
+          <li @click="openSavingsForm">Update Salary</li>
           <li>Update Expense</li>
         </ul>
       </nav>
@@ -38,6 +53,7 @@ const closeAccountForm = () => {
   <!-- To display as a modal -->
   <Teleport to="body">
     <AccountsForm v-if="showAccountFormStatus" @closeForm="closeAccountForm" />
+    <SavingsForm v-if="showSavingsFormStatus" @closeForm="closeSavingsForm" />
   </Teleport>
 </template>
 <style scoped>

@@ -5,7 +5,8 @@ export const Store = defineStore('counter', () => {
   const superUser = { email: 'Christof@bank.com', secret: 'Munich' }
 
   const state = reactive({
-    showAccountFormStatus: false
+    showAccountFormStatus: false,
+    showSavingsFormStatus: false
   })
 
   const toggleAccountForm = () => {
@@ -13,6 +14,13 @@ export const Store = defineStore('counter', () => {
     console.log(state.showAccountFormStatus)
   }
 
+  // Toggling Savings Form
+  const toggleSavingsForm = () => {
+    state.showSavingsFormStatus = !state.showSavingsFormStatus
+    console.log(state.showSavingsFormStatus)
+  }
+
+  // Getting the Super User Name
   const getFullName = computed(() => {
     return superUser.email.split('@')[0]
   })
@@ -21,6 +29,7 @@ export const Store = defineStore('counter', () => {
     superUser,
     getFullName,
     toggleAccountForm,
+    toggleSavingsForm,
     state
   }
 })

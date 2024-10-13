@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-//import { Store } from '@/stores/store'
+import { Store } from '@/stores/store'
 
-//const storeData = Store()
+const storeData = Store()
+
+const { addUser } = storeData
 
 // State variables to store the credentials from the super-user
 const accountName = ref('')
@@ -11,6 +13,7 @@ const initialBalance = ref(0)
 const emit = defineEmits(['closeForm'])
 
 const createAccount = () => {
+  addUser(accountName.value, initialBalance.value)
   console.log('Account created...')
   emit('closeForm')
 }

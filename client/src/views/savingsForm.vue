@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-//import { Store } from '@/stores/store'
+import { Store } from '@/stores/store'
 
-//const storeData = Store()
+const storeData = Store()
+
+const { updateSaving } = storeData
 
 // State variables to store the credentials from the super-user
 const accountID = ref('')
@@ -11,6 +13,7 @@ const savingsAmount = ref(0)
 const emit = defineEmits(['closeForm'])
 
 const updateSavings = () => {
+  updateSaving(accountID.value, savingsAmount.value)
   console.log('Savings updated...')
   emit('closeForm')
 }

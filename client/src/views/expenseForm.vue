@@ -5,36 +5,30 @@ import { ref } from 'vue'
 //const storeData = Store()
 
 // State variables to store the credentials from the super-user
-const accountName = ref('')
-const initialBalance = ref(0)
+const accountID = ref('')
+const expenseAmount = ref(0)
 
 const emit = defineEmits(['closeForm'])
 
-const createAccount = () => {
-  console.log('Account created...')
+const updateExpenses = () => {
+  console.log('Expense updated...')
   emit('closeForm')
 }
 </script>
 <template>
   <div class="background">
-    <form class="form-container" @submit.prevent="createAccount">
-      <!-- Account Name Field -->
+    <form class="form-container" @submit.prevent="updateExpenses">
+      <!-- Account ID Field -->
       <div class="field-container">
-        <label for="account-name">Account Name</label>
-        <input
-          type="text"
-          id="account-name"
-          required
-          placeholder="Eg. Smith"
-          v-model="accountName"
-        />
+        <label for="account-ID">Account ID</label>
+        <input type="number" id="account-ID" v-model="accountID" required />
       </div>
       <!-- Amount Field -->
       <div class="field-container">
-        <label for="initial-amount">Initial Amount</label>
-        <input type="number" id="initial-amount" v-model="initialBalance" required />
+        <label for="expense-amount">Expense Amount</label>
+        <input type="number" id="expense-amount" v-model="expenseAmount" required />
       </div>
-      <button class="button-style">Create</button>
+      <button class="button-style">Update</button>
       <button class="cancel-button" @click="$emit('closeForm')">Close</button>
     </form>
   </div>

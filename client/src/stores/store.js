@@ -6,9 +6,11 @@ export const Store = defineStore('counter', () => {
 
   const state = reactive({
     showAccountFormStatus: false,
-    showSavingsFormStatus: false
+    showSavingsFormStatus: false,
+    showExpenseFormStatus: false
   })
 
+  // Toggling Accounts Form
   const toggleAccountForm = () => {
     state.showAccountFormStatus = !state.showAccountFormStatus
     console.log(state.showAccountFormStatus)
@@ -18,6 +20,12 @@ export const Store = defineStore('counter', () => {
   const toggleSavingsForm = () => {
     state.showSavingsFormStatus = !state.showSavingsFormStatus
     console.log(state.showSavingsFormStatus)
+  }
+
+  // Toggling Expense Form
+  const toggleExpenseForm = () => {
+    state.showExpenseFormStatus = !state.showExpenseFormStatus
+    console.log(state.showExpenseFormStatus)
   }
 
   // Getting the Super User Name
@@ -30,6 +38,7 @@ export const Store = defineStore('counter', () => {
     getFullName,
     toggleAccountForm,
     toggleSavingsForm,
+    toggleExpenseForm,
     state
   }
 })

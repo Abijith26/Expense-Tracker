@@ -3,13 +3,14 @@ import { Store } from '@/stores/store'
 import { toRefs, Teleport } from 'vue'
 import AccountsForm from '@/views/accountForm.vue'
 import SavingsForm from '@/views/savingsForm.vue'
+import ExpenseForm from '@/views/expenseForm.vue'
 import DashHeading from '@/components/dashHeading.vue'
 
 const storeData = Store()
 
-const { toggleAccountForm, toggleSavingsForm, state } = storeData
+const { toggleAccountForm, toggleSavingsForm, toggleExpenseForm, state } = storeData
 
-const { showAccountFormStatus, showSavingsFormStatus } = toRefs(state)
+const { showAccountFormStatus, showSavingsFormStatus, showExpenseFormStatus } = toRefs(state)
 
 // Create Accounts Form
 // Opening the form
@@ -32,10 +33,23 @@ const openSavingsForm = () => {
 const closeSavingsForm = () => {
   toggleSavingsForm()
 }
+
+// Expense Form
+const openExpenseForm = () => {
+  toggleExpenseForm()
+}
+
+// Closing the form
+const closeExpenseForm = () => {
+  toggleExpenseForm()
+}
 </script>
 <template>
   <div
-    :class="['container', { 'blur-background': showAccountFormStatus || showSavingsFormStatus }]"
+    :class="[
+      'container',
+      { 'blur-background': showAccountFormStatus || showSavingsFormStatus || showExpenseFormStatus }
+    ]"
   >
     <!-- sidebar -->
     <aside>
@@ -43,7 +57,7 @@ const closeSavingsForm = () => {
         <ul>
           <li @click="openAccountForm">Create Account</li>
           <li @click="openSavingsForm">Update Salary</li>
-          <li>Update Expense</li>
+          <li @click="openExpenseForm">Update Expense</li>
         </ul>
       </nav>
     </aside>
@@ -54,6 +68,7 @@ const closeSavingsForm = () => {
   <Teleport to="body">
     <AccountsForm v-if="showAccountFormStatus" @closeForm="closeAccountForm" />
     <SavingsForm v-if="showSavingsFormStatus" @closeForm="closeSavingsForm" />
+    <ExpenseForm v-if="showExpenseFormStatus" @close-form="closeExpenseForm" />
   </Teleport>
 </template>
 <style scoped>

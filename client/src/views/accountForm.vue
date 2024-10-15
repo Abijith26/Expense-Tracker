@@ -1,8 +1,17 @@
 <script setup>
 import { ref } from 'vue'
-import { Store } from '@/stores/store'
+// import { Store } from '@/stores/store'
+// import { Store1 } from '@/stores/store1'
+import { Store1 } from '@/stores/store1'
+// Importing Toast Alert and its CSS
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
-const storeData = Store()
+// const storeData = Store()
+
+// const { addUser } = storeData
+
+const storeData = Store1()
 
 const { addUser } = storeData
 
@@ -13,14 +22,26 @@ const initialBalance = ref(0)
 const emit = defineEmits(['closeForm'])
 
 const createAccount = () => {
-  addUser(accountName.value, initialBalance.value)
-  console.log('Account created...')
-  emit('closeForm')
+  if (initialBalance.value > 0) {
+    addUser(accountName.value, initialBalance.value)
+    // Calling the Toaster Alert to display the error message
+    toast.success('Created Account Successfully ', {
+      position: toast.POSITION.TOP_CENTER
+    })
+    console.log('Account created...')
+    emit('closeForm')
+  } else {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Deposit atleast $1', {
+      position: toast.POSITION.TOP_CENTER
+    })
+  }
 }
 </script>
 <template>
   <div class="background">
     <form class="form-container" @submit.prevent="createAccount">
+      <button class="cancel-button" @click="$emit('closeForm')">❌</button>
       <!-- Account Name Field -->
       <div class="field-container">
         <label for="account-name">Account Name</label>
@@ -38,7 +59,6 @@ const createAccount = () => {
         <input type="number" id="initial-amount" v-model="initialBalance" required />
       </div>
       <button class="button-style">Create</button>
-      <button class="cancel-button" @click="$emit('closeForm')">Close</button>
     </form>
   </div>
 </template>
@@ -100,24 +120,25 @@ input[type='number'] {
   border-color: #05060f;
 }
 .cancel-button {
-  padding-block: 0.8rem;
-  padding-inline: 1.25rem;
-  font-size: 15px;
-  text-align: center;
-  border-radius: 8px;
+  /* padding-block: 0.8rem;
+  padding-inline: 1.25rem; */
+  /* font-size: 15px; */
+  /* text-align: center; */
+  /* border-radius: 8px; */
   border: none;
-  cursor: pointer;
   font-weight: bold;
-  background-color: white;
-  color: black;
+  background: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  /* background-color: white; */
+  /* color: black; */
   transition: 0.4s ease-in-out;
 }
 
 .cancel-button:hover {
-  background-color: red;
-  color: white;
+  cursor: pointer;
 }
-
 .button-style {
   position: relative;
   transition: all 0.3s ease-in-out;

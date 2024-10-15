@@ -1,16 +1,32 @@
 <script setup>
-import { Store } from '@/stores/store'
-import { toRefs, Teleport } from 'vue'
+// import { Store } from '@/stores/store'
+import { storeToRefs } from 'pinia'
+import { Store1 } from '@/stores/store1'
+import { Teleport } from 'vue'
 import AccountsForm from '@/views/accountForm.vue'
 import SavingsForm from '@/views/savingsForm.vue'
 import ExpenseForm from '@/views/expenseForm.vue'
 import DashHeading from '@/components/dashHeading.vue'
 
-const storeData = Store()
+import DeleteAccountForm from '@/views/DeleteAccountForm.vue'
+import TabsDashBoard from './tabsDashBoard.vue'
 
-const { toggleAccountForm, toggleSavingsForm, toggleExpenseForm, state } = storeData
+const storeData = Store1()
 
-const { showAccountFormStatus, showSavingsFormStatus, showExpenseFormStatus } = toRefs(state)
+const { toggleAccountForm, toggleSavingsForm, toggleExpenseForm, toggleDeleteAccountForm } =
+  storeData
+const {
+  showAccountFormStatus,
+  showSavingsFormStatus,
+  showExpenseFormStatus,
+  showDeleteAccountFormStatus
+} = storeToRefs(storeData)
+
+// const { toggleAccountForm, toggleSavingsForm, toggleExpenseForm } = storeData
+// const { userAccount } = toRef(stateAccount, 'userAccount')
+
+// Function to get the length of userAccount array
+// const userAccountLength = computed(() => userAccount.value.length)
 
 // Create Accounts Form
 // Opening the form
@@ -43,12 +59,33 @@ const openExpenseForm = () => {
 const closeExpenseForm = () => {
   toggleExpenseForm()
 }
+
+// Delete Account Form
+const openDeleteAccountForm = () => {
+  toggleDeleteAccountForm()
+}
+
+// Closing the form
+const closeDeleteAccountForm = () => {
+  toggleDeleteAccountForm()
+}
+
+const logOut = () => {
+  router.push('/')
+}
+import router from '@/router'
 </script>
 <template>
   <div
     :class="[
       'container',
-      { 'blur-background': showAccountFormStatus || showSavingsFormStatus || showExpenseFormStatus }
+      {
+        'blur-background':
+          showAccountFormStatus ||
+          showSavingsFormStatus ||
+          showExpenseFormStatus ||
+          showDeleteAccountFormStatus
+      }
     ]"
   >
     <!-- sidebar -->
@@ -58,17 +95,32 @@ const closeExpenseForm = () => {
           <li @click="openAccountForm">Create Account</li>
           <li @click="openSavingsForm">Update Salary</li>
           <li @click="openExpenseForm">Update Expense</li>
+          <li @click="openDeleteAccountForm">Delete Account</li>
+          <li @click="logOut">Log-Out</li>
         </ul>
       </nav>
     </aside>
     <!-- Main Content -->
-    <main><DashHeading /></main>
+    <main>
+      <div class="heading-container">
+        <DashHeading />
+        <!-- <nav class="tabs">
+          <a>Home</a>
+          <a>Logs</a>
+        </nav> -->
+      </div>
+      <TabsDashBoard />
+      <!-- <AccountsTable1 /> -->
+      <!-- <TotalLogs /> -->
+    </main>
   </div>
   <!-- To display as a modal -->
   <Teleport to="body">
     <AccountsForm v-if="showAccountFormStatus" @closeForm="closeAccountForm" />
     <SavingsForm v-if="showSavingsFormStatus" @closeForm="closeSavingsForm" />
     <ExpenseForm v-if="showExpenseFormStatus" @close-form="closeExpenseForm" />
+    <DeleteAccountForm v-if="showDeleteAccountFormStatus" @close-form="closeDeleteAccountForm" />
+    <!-- <DeleteAccountForm v-if="showDeleteAccountFormStatus" @close-form="closeDeleteAccountForm" /> -->
   </Teleport>
 </template>
 <style scoped>
@@ -126,4 +178,33 @@ main {
   flex-grow: 1;
   border-radius: 5px;
 }
+
+.heading-container {
+  display: flex;
+  gap: 15px;
+}
+
+/* .tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  padding: 2px;
+  background: whitesmoke;
+  width: 15%;
+  border-radius: 5px;
+}
+
+.tabs a {
+  padding: 5px;
+  font-size: 16px;
+}
+
+.tabs > a:hover {
+  background: red;
+  color: white;
+  border-radius: 5px;
+ 
+} */
 </style>

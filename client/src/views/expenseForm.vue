@@ -1,8 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-import { Store } from '@/stores/store'
+// import { Store } from '@/stores/store'
+import { Store1 } from '@/stores/store1'
+// Importing Toast Alert and its CSS
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
-const storeData = Store()
+const storeData = Store1()
 
 const { updateExpense } = storeData
 
@@ -13,14 +17,26 @@ const expenseAmount = ref(0)
 const emit = defineEmits(['closeForm'])
 
 const updateExpenses = () => {
-  updateExpense(accountID.value, expenseAmount.value)
-  console.log('Expense updated...')
-  emit('closeForm')
+  if (expenseAmount.value === 0) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Amount should be atleast $1 ', {
+      position: toast.POSITION.TOP_CENTER
+    })
+  } else {
+    updateExpense(accountID.value, expenseAmount.value)
+    // Calling the Toaster Alert to display the error message
+    toast.success('Expense Deducted Successfully ', {
+      position: toast.POSITION.TOP_CENTER
+    })
+    console.log('Expense updated...')
+    emit('closeForm')
+  }
 }
 </script>
 <template>
   <div class="background">
     <form class="form-container" @submit.prevent="updateExpenses">
+      <button class="cancel-button" @click="$emit('closeForm')">❌</button>
       <!-- Account ID Field -->
       <div class="field-container">
         <label for="account-ID">Account ID</label>
@@ -32,7 +48,6 @@ const updateExpenses = () => {
         <input type="number" id="expense-amount" v-model="expenseAmount" required />
       </div>
       <button class="button-style">Update</button>
-      <button class="cancel-button" @click="$emit('closeForm')">Close</button>
     </form>
   </div>
 </template>
@@ -59,6 +74,7 @@ const updateExpenses = () => {
   gap: 10px;
   font-family: sans-serif;
   font-weight: 600;
+  position: relative;
 }
 
 .field-container > input {
@@ -94,22 +110,24 @@ input[type='number'] {
   border-color: #05060f;
 }
 .cancel-button {
-  padding-block: 0.8rem;
-  padding-inline: 1.25rem;
-  font-size: 15px;
-  text-align: center;
-  border-radius: 8px;
+  /* padding-block: 0.8rem;
+  padding-inline: 1.25rem; */
+  /* font-size: 15px; */
+  /* text-align: center; */
+  /* border-radius: 8px; */
   border: none;
-  cursor: pointer;
   font-weight: bold;
-  background-color: white;
-  color: black;
+  background: none;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  /* background-color: white; */
+  /* color: black; */
   transition: 0.4s ease-in-out;
 }
 
 .cancel-button:hover {
-  background-color: red;
-  color: white;
+  cursor: pointer;
 }
 
 .button-style {

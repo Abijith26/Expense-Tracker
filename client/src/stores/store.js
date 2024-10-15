@@ -1,70 +1,91 @@
 import { defineStore } from 'pinia'
-import { computed, reactive, ref } from 'vue'
+import { computed, ref, reactive } from 'vue'
 
-export const Store = defineStore('counter', () => {
-  const superUser = { email: 'Christof@bank.com', secret: 'Munich' }
+export const Store = defineStore('finance', () => {
+  const getDate = () => {
+    const currentDate = new Date()
+    return currentDate.toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric'
+    })
+  }
 
-  // User ID Count
+  const superUser = { email: 'Christian@bank.com', secret: 'Munich' }
+
   let userIdCount = 1
+  const userAccounts = ref([
+    {
+      accountID: userIdCount++,
+      accountName: 'Veer',
+      balance: 250,
+      created: getDate(),
+      updated: '-'
+    }
+  ])
 
-  // Creating array to store the account information
-  const stateAccount = reactive({
-    userAccount: [{ accountID: userIdCount++, accountName: 'Veer', balance: 250 }],
-    savingsHistory: [],
-    expenseHistory: []
-  })
+  const savingsHistory = ref([])
+  const expenseHistory = ref([])
+  // const stateAccount = reactive({
+  //   userAccount: [
+  //     {
+  //       accountID: userIdCount++,
+  //       accountName: 'Veer',
+  //       balance: 250,
+  //       created: getDate(),
+  //       updated: '-'
+  //     }
+  //   ],
+  //   savingsHistory: [],
+  //   expenseHistory: []
+  // })
 
-  // Function to add users to the accounts array
   const addUser = (name, initialBalance) => {
     const userDetail = {
       accountID: userIdCount++,
       accountName: name,
-      balance: initialBalance
+      balance: initialBalance,
+      created: getDate(),
+      updated: '-'
     }
+    console.log(userDetail)
 
-    stateAccount.userAccount.push(userDetail)
-    // }
-    // for checking purpose
-    console.log(stateAccount.userAccount)
+    userAccounts.value.push(userDetail)
+    console.log(`Array after: ${userAccounts.value}`)
   }
 
-  // Function to update the savings
   const updateSaving = (id, saving) => {
-    stateAccount.userAccount.forEach((account, index) => {
-      if (index + 1 === id) {
-        const addedSavings = {
-          user: account.accountName,
-          savings: saving
-        }
-        stateAccount.savingsHistory.push(addedSavings)
-        console.log(stateAccount.savingsHistory)
+    const account = userAccounts.value.find((acc) => acc.accountID === id)
+    if (account) {
+      account.updated = getDate()
+      account.balance += saving
+      console.log(`Savings Before Update: ${savingsHistory.value}`)
 
-        account.balance += saving
-      }
-    })
-    console.log('Account Savings updated')
-
-    console.log(stateAccount.userAccount)
+      savingsHistory.value.push({
+        user: account.accountName,
+        savings: saving,
+        updated: account.updated
+      })
+      console.log(`Savings Updated: ${savingsHistory.value}`)
+    }
   }
 
-  // Function to update the expense
   const updateExpense = (id, expense) => {
-    stateAccount.userAccount.forEach((account, index) => {
-      if (index + 1 === id && account.balance > expense) {
-        const occuredExpense = {
-          user: account.accountName,
-          expense: expense
-        }
-        stateAccount.expenseHistory.push(occuredExpense)
-        account.balance -= expense
-        return 'true'
-      } else {
-        return 'false'
-      }
-    })
-    console.log('Account Expense updated')
-
-    console.log(stateAccount.userAccount)
+    const account = userAccounts.value.find((acc) => acc.accountID === id)
+    if (account && account.balance >= expense) {
+      account.updated = getDate()
+      account.balance -= expense
+      expenseHistory.value.push({
+        user: account.accountName,
+        expense: expense,
+        updated: account.updated
+      })
+      return true
+    }
+    return false
   }
 
   const state = reactive({
@@ -73,28 +94,12 @@ export const Store = defineStore('counter', () => {
     showExpenseFormStatus: false
   })
 
-  // Toggling Accounts Form
-  const toggleAccountForm = () => {
-    state.showAccountFormStatus = !state.showAccountFormStatus
-    console.log(state.showAccountFormStatus)
-  }
+  const toggleAccountForm = () => (state.showAccountFormStatus = !state.showAccountFormStatus)
+  const toggleSavingsForm = () => (state.showSavingsFormStatus = !state.showSavingsFormStatus)
+  const toggleExpenseForm = () => (state.showExpenseFormStatus = !state.showExpenseFormStatus)
 
-  // Toggling Savings Form
-  const toggleSavingsForm = () => {
-    state.showSavingsFormStatus = !state.showSavingsFormStatus
-    console.log(state.showSavingsFormStatus)
-  }
-
-  // Toggling Expense Form
-  const toggleExpenseForm = () => {
-    state.showExpenseFormStatus = !state.showExpenseFormStatus
-    console.log(state.showExpenseFormStatus)
-  }
-
-  // Getting the Super User Name
-  const getFullName = computed(() => {
-    return superUser.email.split('@')[0]
-  })
+  const getFullName = computed(() => superUser.email.split('@')[0])
+  const getUserAccounts = computed(() => [...userAccounts.value])
 
   return {
     superUser,
@@ -104,8 +109,11 @@ export const Store = defineStore('counter', () => {
     toggleExpenseForm,
     addUser,
     state,
-    stateAccount,
+    userAccounts,
+    savingsHistory,
+    expenseHistory,
     updateSaving,
-    updateExpense
+    updateExpense,
+    getUserAccounts
   }
 })

@@ -1,8 +1,8 @@
 <script setup>
 // import { ref } from 'vue'
-import { Store } from '@/stores/store'
+import { Store1 } from '@/stores/store1'
 
-const storeData = Store()
+const storeData = Store1()
 
 // Destructuring to get the necessary data as it is of non-reactive type
 </script>

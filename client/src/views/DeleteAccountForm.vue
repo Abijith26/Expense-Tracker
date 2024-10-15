@@ -7,51 +7,40 @@ import { toast } from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 const storeData = Store1()
 
-const { updateSaving } = storeData
+const { deleteUser } = storeData
 
 // State variables to store the credentials from the super-user
 const accountID = ref('')
-const savingsAmount = ref(0)
 
 const emit = defineEmits(['closeForm'])
 
-const updateSavings = () => {
-  if (savingsAmount.value === 0) {
+const deleteAccount = () => {
+  if (Number(accountID.value) === 0) {
     // Calling the Toaster Alert to display the error message
-    toast.error('Amount should be atleast $1 ', {
+    toast.error('Provide a valid Account-ID ', {
       position: toast.POSITION.TOP_CENTER
     })
   } else {
-    updateSaving(accountID.value, savingsAmount.value)
+    deleteUser(Number(accountID.value))
     // Calling the Toaster Alert to display the error message
-    toast.success('Money deposited successfully ', {
+    toast.success('Deleted Account Successfully ', {
       position: toast.POSITION.TOP_CENTER
     })
-    console.log('Savings updated...')
+    console.log('Account deleted...')
     emit('closeForm')
   }
 }
 </script>
 <template>
   <div class="background">
-    <form class="form-container" @submit.prevent="updateSavings">
+    <form class="form-container" @submit.prevent="deleteAccount">
       <button class="cancel-button" @click="$emit('closeForm')">❌</button>
       <!-- Account ID Field -->
       <div class="field-container">
         <label for="account-ID">Account ID</label>
         <input type="number" id="account-ID" v-model="accountID" required />
       </div>
-      <!-- Savings Amount Field -->
-      <div class="field-container">
-        <label for="savings-amount">Savings-Amount</label>
-        <input
-          type="number"
-          id="savings-amount"
-          required
-          placeholder="Eg. 100"
-          v-model="savingsAmount"
-        />
-      </div>
+
       <button class="button-style">Update</button>
     </form>
   </div>

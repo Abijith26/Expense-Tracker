@@ -1,4 +1,6 @@
 import App from '@/App.vue'
+import AccountsTable1 from '@/components/AccountsTable1.vue'
+import UserAccountTable from '@/components/userAccountTable.vue'
 import AccountForm from '@/views/accountForm.vue'
 import DashboardPage from '@/views/DashboardPage.vue'
 import LoginPage from '@/views/LoginPage.vue'
@@ -29,6 +31,11 @@ const router = createRouter({
       path: '/accountForm',
       name: 'accountForm',
       component: AccountForm
+    },
+    {
+      path: '/accounts-table',
+      name: 'accounts-table',
+      component: AccountsTable1
     }
   ]
 })

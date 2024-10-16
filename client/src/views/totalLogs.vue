@@ -7,8 +7,6 @@ const store = Store1()
 
 const { clearLogs } = store
 
-// console.log(store.userData)
-
 function deleteLogs() {
   console.log('Clear Log Button Clicked..')
   clearLogs()

@@ -1,7 +1,11 @@
 <script setup>
 import router from '@/router'
+import { Store1 } from '@/stores/store1'
+
+const storeData = Store1()
 
 const logOut = () => {
+  storeData.logout()
   router.push('/login')
 }
 </script>

@@ -2,6 +2,7 @@ import App from '@/App.vue'
 
 import DashboardPage from '@/views/DashboardPage.vue'
 import LoginPage from '@/views/LoginPage.vue'
+import NotFoundPage from '@/views/NotFoundPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { Store1 } from '@/stores/store1'
 
@@ -25,6 +26,12 @@ const router = createRouter({
       name: 'dashboard',
       component: DashboardPage,
       meta: { requiresAuth: true }
+    },
+    // Catch-all route for 404 (must be the last route)
+    {
+      path: '/:pathMatch(.*)*', // This is the catch-all route
+      name: 'NotFound',
+      component: NotFoundPage
     }
   ]
 })

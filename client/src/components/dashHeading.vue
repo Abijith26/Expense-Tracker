@@ -1,8 +1,5 @@
 <script setup>
-import { Store1 } from '@/stores/store1'
 import router from '@/router'
-
-const storeData = Store1()
 
 const logOut = () => {
   router.push('/login')
@@ -11,7 +8,6 @@ const logOut = () => {
 
 <template>
   <div class="container">
-    <p class="heading">Hello!, Admin &nbsp;{{ storeData.getFullName }}🙂</p>
     <button @click="logOut" class="clear-button">Log-Out</button>
   </div>
 </template>
@@ -19,21 +15,12 @@ const logOut = () => {
 <style scoped>
 .container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
-}
-.heading {
-  font-family: sans-serif;
-  font-size: 16px;
-  font-weight: bolder;
-  background-color: grey;
-  color: whitesmoke;
+  margin-bottom: 10px;
   padding: 10px;
-  border-radius: 5px;
-  width: fit-content;
-  height: fit-content;
 }
 
 .clear-button {

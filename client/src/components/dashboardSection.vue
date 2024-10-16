@@ -1,15 +1,14 @@
 <script setup>
-// import { Store } from '@/stores/store'
 import { storeToRefs } from 'pinia'
 import { Store1 } from '@/stores/store1'
 import { Teleport } from 'vue'
 import AccountsForm from '@/views/accountForm.vue'
 import SavingsForm from '@/views/savingsForm.vue'
 import ExpenseForm from '@/views/expenseForm.vue'
-import DashHeading from '@/components/dashHeading.vue'
 
 import DeleteAccountForm from '@/views/DeleteAccountForm.vue'
 import TabsDashBoard from './tabsDashBoard.vue'
+import DashHeading from './dashHeading.vue'
 
 const storeData = Store1()
 
@@ -22,19 +21,12 @@ const {
   showDeleteAccountFormStatus
 } = storeToRefs(storeData)
 
-// const { toggleAccountForm, toggleSavingsForm, toggleExpenseForm } = storeData
-// const { userAccount } = toRef(stateAccount, 'userAccount')
-
-// Function to get the length of userAccount array
-// const userAccountLength = computed(() => userAccount.value.length)
-
-// Create Accounts Form
-// Opening the form
+// Opening the Create Account form
 const openAccountForm = () => {
   toggleAccountForm()
 }
 
-// Closing the form
+// Closing the Create Account form
 const closeAccountForm = () => {
   toggleAccountForm()
 }
@@ -69,11 +61,6 @@ const openDeleteAccountForm = () => {
 const closeDeleteAccountForm = () => {
   toggleDeleteAccountForm()
 }
-
-// const logOut = () => {
-//   router.push('/')
-// }
-// import router from '@/router'
 </script>
 <template>
   <div
@@ -101,16 +88,8 @@ const closeDeleteAccountForm = () => {
     </aside>
     <!-- Main Content -->
     <main>
-      <div class="heading-container">
-        <DashHeading />
-        <!-- <nav class="tabs">
-          <a>Home</a>
-          <a>Logs</a>
-        </nav> -->
-      </div>
+      <DashHeading />
       <TabsDashBoard />
-      <!-- <AccountsTable1 /> -->
-      <!-- <TotalLogs /> -->
     </main>
   </div>
   <!-- To display as a modal -->
@@ -119,7 +98,6 @@ const closeDeleteAccountForm = () => {
     <SavingsForm v-if="showSavingsFormStatus" @closeForm="closeSavingsForm" />
     <ExpenseForm v-if="showExpenseFormStatus" @close-form="closeExpenseForm" />
     <DeleteAccountForm v-if="showDeleteAccountFormStatus" @close-form="closeDeleteAccountForm" />
-    <!-- <DeleteAccountForm v-if="showDeleteAccountFormStatus" @close-form="closeDeleteAccountForm" /> -->
   </Teleport>
 </template>
 <style scoped>
@@ -138,6 +116,7 @@ const closeDeleteAccountForm = () => {
   flex-direction: row;
   gap: 15px;
   transition: filter 0.3s ease-in-out;
+  align-items: stretch;
 }
 
 .nav-style {
@@ -172,15 +151,10 @@ const closeDeleteAccountForm = () => {
 
 main {
   margin-top: 10px;
-  padding: 15px;
+  padding: 5px;
   background-color: #dae3e5;
   flex-grow: 1;
   border-radius: 5px;
-}
-
-.heading-container {
-  display: flex;
-  gap: 15px;
 }
 
 /* .tabs {

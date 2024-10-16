@@ -18,7 +18,7 @@ function deleteLogs() {
     v-if="store.fullHistory.length === 0"
     style="text-align: center; font-size: 24px; font-weight: 600"
   >
-    No Transaction Done yet 😕!
+    No Logs!
   </p>
   <div class="card" v-if="store.fullHistory.length > 0">
     <button class="clear-button" @click="deleteLogs">Clear All Logs</button>
@@ -63,7 +63,12 @@ function deleteLogs() {
           header="New Balance"
           style="padding: 5px; font-family: 'Poppins'; font-weight: 400; font-style: normal"
         ></Column>
-
+        <!-- Created On -->
+        <Column
+          field="created"
+          header="Created-On"
+          style="padding: 5px; font-family: 'Poppins'; font-weight: 400; font-style: normal"
+        ></Column>
         <Column
           field="updated"
           header="Updated-On"

@@ -16,6 +16,6 @@ import DashboardSection from '@/components/dashboardSection.vue'
 }
 
 .dash-container {
-  padding: 10px;
+  padding: 5px;
 }
 </style>

@@ -90,7 +90,7 @@ function validate() {
         <label for="super-user-name-password">Password</label>
         <input type="password" id="super-user-name-password" v-model="password" required />
       </div>
-      <button class="button-style">Submit</button>
+      <button class="button-style">Login</button>
     </form>
   </div>
 </template>

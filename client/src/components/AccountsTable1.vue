@@ -87,13 +87,14 @@ watch(
 
   <!-- Specific User Transaction Details -->
   <div class="specific-user-table">
-    <div class="container">
-      <h3 v-if="userTransactionData.length > 0">Selected User Transactions</h3>
-      <button v-if="userTransactionData.length > 0" class="clear-button" @click="clearTable">
-        Clear
-      </button>
+    <div class="container" v-if="userTransactionData.length > 0">
+      <h3>Selected User Transactions</h3>
+      <button class="clear-button" @click="clearTable">Clear</button>
     </div>
     <p class="userTransaction-Title" v-if="userTransactionData.length === 0">No Users selected</p>
+    <p class="userTransaction-Title" v-if="userTransactionData === 0">
+      No Records for the selected user
+    </p>
     <div class="card" v-if="userTransactionData.length > 0">
       <DataTable
         :value="userTransactionData"
@@ -165,7 +166,7 @@ watch(
   font-weight: 600;
   position: fixed;
   bottom: 10%;
-  left: 52%;
+  left: 45%;
 }
 
 .container {

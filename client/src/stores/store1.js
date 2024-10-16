@@ -66,10 +66,12 @@ export const Store1 = defineStore('counter1', {
         amount: userCreated.balance,
         type: 'Account Created',
         oldBalance: '-',
-        newBalance: '-',
+        newBalance: userCreated.balance,
+        created: userCreated.created,
         updated: '-'
       })
       console.log(this.userAccount)
+      console.log(this.totalTransactionHistory)
     },
     deleteUser(id) {
       const account = this.userAccount.find((acc) => acc.accountID === id)
@@ -83,6 +85,7 @@ export const Store1 = defineStore('counter1', {
         oldBalance: account.balance,
         amount: '-',
         newBalance: '-',
+        created: account.created,
         updated: this.getDate()
       })
 
@@ -109,7 +112,8 @@ export const Store1 = defineStore('counter1', {
           oldBalance: account.balance - saving,
           amount: `+${saving}`,
           newBalance: account.balance,
-          updated: account.updated
+          updated: account.updated,
+          created: account.created
         })
         console.log(this.savingsHistory)
       }
@@ -130,15 +134,21 @@ export const Store1 = defineStore('counter1', {
           user: account.accountName,
           type: 'Debit',
           oldBalance: account.balance + expense,
-          amount: `${expense}`,
+          amount: `-${expense}`,
           newBalance: account.balance,
-          updated: account.updated
+          updated: account.updated,
+          created: account.created
         })
       }
     },
     selectedAccountHistory(id) {
       console.log('Specific User History Method is called...')
-      return this.totalTransactionHistory.filter((acc) => acc.accountID === id)
+      const filteredTransactions = this.totalTransactionHistory.filter(
+        (acc) => acc.accountID === id
+      )
+
+      // Check if there are any filtered results, return 0 if none
+      return filteredTransactions.length > 0 ? filteredTransactions : 0
     },
     clearLogs() {
       this.totalTransactionHistory.length = 0

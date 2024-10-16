@@ -48,6 +48,7 @@ function validate() {
     toast.success('Right Credentials --> Logging In', {
       position: toast.POSITION.TOP_CENTER
     })
+    storeData.login()
     router.push('/dashboard')
   } else {
     if (superUserEmailID.value !== email) {

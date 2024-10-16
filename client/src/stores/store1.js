@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 
 export const Store1 = defineStore('counter1', {
   state: () => ({
+    isLoggedIn: false,
     count: 0,
     userAccount: [],
     savingsHistory: [],
@@ -35,9 +36,16 @@ export const Store1 = defineStore('counter1', {
     userData: (state) => state.userAccount,
     getFullName: (state) => state.superUser.email.split('@')[0],
     fullHistory: (state) => state.totalTransactionHistory,
-    getCredentials: (state) => state.superUser
+    getCredentials: (state) => state.superUser,
+    getLoginStatus: (state) => state.isLoggedIn
   },
   actions: {
+    login() {
+      this.isLoggedIn = true
+    },
+    logout() {
+      this.isLoggedIn = false
+    },
     getDate() {
       const currentDate = new Date()
       const options = {

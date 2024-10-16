@@ -37,6 +37,7 @@ watch(
 </script>
 
 <template>
+  <!-- User Account Table -->
   <div class="userAccount-table">
     <p
       v-if="store.userData.length === 0"

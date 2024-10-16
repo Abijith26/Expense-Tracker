@@ -8,16 +8,34 @@ export const Store1 = defineStore('counter1', {
     expenseHistory: [],
     totalTransactionHistory: [],
     userIdCount: 1,
-    superUser: { email: 'Christian@bank.com', secret: 'Munich' },
+    superUser: { email: 'Christian@bank.com', secret: 'Munich@26' },
     showAccountFormStatus: false,
     showSavingsFormStatus: false,
     showExpenseFormStatus: false,
     showDeleteAccountFormStatus: false
   }),
+
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'store-1',
+        storage: localStorage,
+        paths: [
+          'userAccount',
+          'savingsHistory',
+          'expenseHistory',
+          'totalTransactionHistory',
+          'userIdCount'
+        ]
+      }
+    ]
+  },
   getters: {
     userData: (state) => state.userAccount,
     getFullName: (state) => state.superUser.email.split('@')[0],
-    fullHistory: (state) => state.totalTransactionHistory
+    fullHistory: (state) => state.totalTransactionHistory,
+    getCredentials: (state) => state.superUser
   },
   actions: {
     getDate() {
@@ -34,16 +52,40 @@ export const Store1 = defineStore('counter1', {
     },
 
     addUser(name, initialBalance) {
-      this.userAccount.push({
+      const userCreated = {
         accountID: this.userIdCount++,
         accountName: name,
         balance: Number(initialBalance),
         created: this.getDate(),
         updated: '-'
+      }
+      this.userAccount.push(userCreated)
+      this.totalTransactionHistory.push({
+        accountID: userCreated.accountID,
+        user: userCreated.accountName,
+        amount: userCreated.balance,
+        type: 'Account Created',
+        oldBalance: '-',
+        newBalance: '-',
+        updated: '-'
       })
       console.log(this.userAccount)
     },
     deleteUser(id) {
+      const account = this.userAccount.find((acc) => acc.accountID === id)
+      console.log(`Deleting Account is:${account}`)
+
+      this.totalTransactionHistory.push({
+        accountID: id,
+        user: account.accountName,
+
+        type: 'Account Deleted',
+        oldBalance: account.balance,
+        amount: '-',
+        newBalance: '-',
+        updated: this.getDate()
+      })
+
       this.userAccount = this.userAccount.filter((user) => user.accountID !== id)
       console.log(`Deleted User Account: ${id}`)
 
@@ -96,11 +138,12 @@ export const Store1 = defineStore('counter1', {
     },
     selectedAccountHistory(id) {
       console.log('Specific User History Method is called...')
-
-      return this.fullHistory.filter((acc) => acc.accountID === id)
+      return this.totalTransactionHistory.filter((acc) => acc.accountID === id)
     },
     clearLogs() {
-      this.fullHistory.length = 0
+      this.totalTransactionHistory.length = 0
+      this.savingsHistory.length = 0
+      this.expenseHistory.length = 0
     },
 
     // These are your toggle functions, make sure they're inside actions

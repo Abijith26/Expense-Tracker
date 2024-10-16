@@ -16,11 +16,23 @@ const savingsAmount = ref(0)
 const emit = defineEmits(['closeForm'])
 
 const updateSavings = () => {
-  if (savingsAmount.value === 0) {
+  const account = storeData.userData.find((user) => user.accountID === accountID.value)
+  if (savingsAmount.value === 0 && !account) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Provide correct Account-ID and amount', {
+      position: toast.POSITION.TOP_CENTER
+    })
+  } else if (savingsAmount.value === 0) {
     // Calling the Toaster Alert to display the error message
     toast.error('Amount should be atleast $1 ', {
       position: toast.POSITION.TOP_CENTER
     })
+  } else if (!account) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Provide a valid Account-ID to update savings', {
+      position: toast.POSITION.TOP_CENTER
+    })
+    accountID.value = ''
   } else {
     updateSaving(accountID.value, savingsAmount.value)
     // Calling the Toaster Alert to display the error message

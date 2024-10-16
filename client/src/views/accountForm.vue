@@ -22,7 +22,12 @@ const initialBalance = ref(0)
 const emit = defineEmits(['closeForm'])
 
 const createAccount = () => {
-  if (initialBalance.value > 0) {
+  const letters = /^[A-Za-z]+$/
+  const amtCheck = initialBalance.value > 0
+  const nameCheck = letters.test(accountName.value)
+  console.log(nameCheck)
+
+  if (amtCheck && nameCheck) {
     addUser(accountName.value, initialBalance.value)
     // Calling the Toaster Alert to display the error message
     toast.success('Created Account Successfully ', {
@@ -30,9 +35,19 @@ const createAccount = () => {
     })
     console.log('Account created...')
     emit('closeForm')
-  } else {
+  } else if (!amtCheck && !nameCheck) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Provide Valid Account Name and amount', {
+      position: toast.POSITION.TOP_CENTER
+    })
+  } else if (!amtCheck) {
     // Calling the Toaster Alert to display the error message
     toast.error('Deposit atleast $1', {
+      position: toast.POSITION.TOP_CENTER
+    })
+  } else if (!nameCheck) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Provide a Valid name containing only Letters', {
       position: toast.POSITION.TOP_CENTER
     })
   }

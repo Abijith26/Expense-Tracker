@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Store } from '@/stores/store'
+import { Store1 } from '@/stores/store1'
 import router from '@/router'
 
 // Importing Toast Alert and its CSS
@@ -12,31 +12,62 @@ const superUserEmailID = ref('')
 const password = ref('')
 
 function validate() {
+  // Password Validation Rules (regex: at least 8 characters, 1 uppercase, 1 number, 1 special character)
+  const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+  const passwordResult = passwordRegex.test(password.value)
+
+  // Checking if the password meets the criteria
+  if (!passwordResult) {
+    toast.error(
+      'Password must be at least 8 characters long and include one uppercase letter, one number, and one special character.',
+      {
+        position: toast.POSITION.TOP_CENTER
+      }
+    )
+    return
+  }
   console.log('Function Called...')
 
+  console.log(password.value)
+
   // Accessing the store
-  const storeData = Store()
+  const storeData = Store1()
 
-  // Destructuring to get the necessary data as it is of non-reactive type
-  const { email, secret } = storeData.superUser
-  console.log(`Extraction done - Name:${email}, Secret:${secret}`)
+  // Correctly accessing the getter for credentials
+  const credentials = storeData.getCredentials
 
-  // Validating the creds with the stored cred
-  console.log('Validation Starts..')
+  // Destructuring to get the necessary data from the store
+  const { email, secret } = credentials
 
+  console.log(`Extraction done - Email: ${email}, Secret: ${secret}`)
+
+  // Validating credentials
+  console.log('Validation Starts...')
   if (superUserEmailID.value === email && password.value === secret) {
-    console.log('Validation Ends...')
-
-    router.push('/dashboard')
-  } else {
-    // Calling the Toaster Alert to display the error message
-    toast.error('Enter the right credentials 😕', {
+    console.log('Validation successful!')
+    toast.success('Right Credentials --> Logging In', {
       position: toast.POSITION.TOP_CENTER
     })
-    // Clearing the fields after the validation
-    superUserEmailID.value = ''
-    password.value = ''
+    router.push('/dashboard')
+  } else {
+    if (superUserEmailID.value !== email) {
+      toast.error('Incorrect email 😕', {
+        position: toast.POSITION.TOP_CENTER
+      })
+    } else if (password.value !== secret) {
+      toast.error('Incorrect password 😕', {
+        position: toast.POSITION.TOP_CENTER
+      })
+    } else {
+      toast.error('Enter the correct email and password 😕', {
+        position: toast.POSITION.TOP_CENTER
+      })
+    }
   }
+
+  // Clear fields after validation
+  superUserEmailID.value = ''
+  password.value = ''
 }
 </script>
 <template>

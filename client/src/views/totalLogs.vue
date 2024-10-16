@@ -29,7 +29,7 @@ function deleteLogs() {
         :value="store.fullHistory"
         showGridlines
         paginator
-        :rows="5"
+        :rows="10"
         tableStyle="min-width: 50rem"
         selectionMode="single"
         sortField="updated"
@@ -42,7 +42,7 @@ function deleteLogs() {
         ></Column>
         <Column
           field="user"
-          header="Account"
+          header="Account Name"
           style="padding: 5px; font-family: 'Poppins'; font-weight: 400; font-style: normal"
         ></Column>
         <Column

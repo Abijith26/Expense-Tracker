@@ -25,17 +25,6 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardPage
-    },
-    // Just for checking Purpose
-    {
-      path: '/accountForm',
-      name: 'accountForm',
-      component: AccountForm
-    },
-    {
-      path: '/accounts-table',
-      name: 'accounts-table',
-      component: AccountsTable1
     }
   ]
 })

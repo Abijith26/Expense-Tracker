@@ -15,13 +15,15 @@ const accountID = ref('')
 const emit = defineEmits(['closeForm'])
 
 const deleteAccount = () => {
-  if (Number(accountID.value) === 0) {
+  const account = storeData.userData.find((user) => user.accountID === accountID.value)
+  if (!account) {
     // Calling the Toaster Alert to display the error message
-    toast.error('Provide a valid Account-ID ', {
+    toast.error('Provide a valid Account-ID to delete', {
       position: toast.POSITION.TOP_CENTER
     })
+    accountID.value = ''
   } else {
-    deleteUser(Number(accountID.value))
+    deleteUser(accountID.value)
     // Calling the Toaster Alert to display the error message
     toast.success('Deleted Account Successfully ', {
       position: toast.POSITION.TOP_CENTER

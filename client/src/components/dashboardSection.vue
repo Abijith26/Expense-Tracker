@@ -70,10 +70,10 @@ const closeDeleteAccountForm = () => {
   toggleDeleteAccountForm()
 }
 
-const logOut = () => {
-  router.push('/')
-}
-import router from '@/router'
+// const logOut = () => {
+//   router.push('/')
+// }
+// import router from '@/router'
 </script>
 <template>
   <div
@@ -96,7 +96,6 @@ import router from '@/router'
           <li @click="openSavingsForm">Update Salary</li>
           <li @click="openExpenseForm">Update Expense</li>
           <li @click="openDeleteAccountForm">Delete Account</li>
-          <li @click="logOut">Log-Out</li>
         </ul>
       </nav>
     </aside>

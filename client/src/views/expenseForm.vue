@@ -15,13 +15,24 @@ const accountID = ref('')
 const expenseAmount = ref(0)
 
 const emit = defineEmits(['closeForm'])
-
 const updateExpenses = () => {
-  if (expenseAmount.value === 0) {
+  const account = storeData.userData.find((user) => user.accountID === accountID.value)
+  if (expenseAmount.value === 0 && !account) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Provide Valid Account ID and Amount', {
+      position: toast.POSITION.TOP_CENTER
+    })
+  } else if (expenseAmount.value === 0) {
     // Calling the Toaster Alert to display the error message
     toast.error('Amount should be atleast $1 ', {
       position: toast.POSITION.TOP_CENTER
     })
+  } else if (!account) {
+    // Calling the Toaster Alert to display the error message
+    toast.error('Provide a valid Account-ID to update expense', {
+      position: toast.POSITION.TOP_CENTER
+    })
+    accountID.value = ''
   } else {
     updateExpense(accountID.value, expenseAmount.value)
     // Calling the Toaster Alert to display the error message

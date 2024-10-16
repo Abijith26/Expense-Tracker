@@ -1,17 +1,29 @@
 <script setup>
-// import { ref } from 'vue'
 import { Store1 } from '@/stores/store1'
+import router from '@/router'
 
 const storeData = Store1()
 
-// Destructuring to get the necessary data as it is of non-reactive type
+const logOut = () => {
+  router.push('/login')
+}
 </script>
 
 <template>
-  <p class="heading">Hallo, Herr {{ storeData.getFullName }}!</p>
+  <div class="container">
+    <p class="heading">Hello!, Admin &nbsp;{{ storeData.getFullName }}🙂</p>
+    <button @click="logOut" class="clear-button">Log-Out</button>
+  </div>
 </template>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 .heading {
   font-family: sans-serif;
   font-size: 16px;
@@ -22,5 +34,23 @@ const storeData = Store1()
   border-radius: 5px;
   width: fit-content;
   height: fit-content;
+}
+
+.clear-button {
+  padding: 10px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  background-color: burlywood;
+  width: fit-content;
+  height: fit-content;
+  transition: all 0.2s ease-in;
+}
+
+.clear-button:hover {
+  background-color: red;
+  color: white;
+  cursor: pointer;
 }
 </style>
